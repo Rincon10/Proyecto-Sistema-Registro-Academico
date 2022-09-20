@@ -1,5 +1,6 @@
 package org.perficient.registrationsystem.model;
 
+import lombok.Data;
 import org.perficient.registrationsystem.model.enums.Department;
 
 import java.util.Set;
@@ -9,6 +10,7 @@ import java.util.Set;
  *
  * @Author Ivan Camilo Rincon Saavedra
  */
+@Data
 public class Professor extends User {
 
     private Department department;

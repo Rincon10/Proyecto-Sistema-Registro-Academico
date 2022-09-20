@@ -1,5 +1,7 @@
 package org.perficient.registrationsystem.model;
 
+import lombok.Data;
+
 import java.util.Set;
 
 /**
@@ -7,6 +9,7 @@ import java.util.Set;
  *
  * @Author Ivan Camilo Rincon Saavedra
  */
+@Data
 public class Student extends User {
 
     private Integer semester;

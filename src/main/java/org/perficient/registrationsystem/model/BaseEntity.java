@@ -1,5 +1,7 @@
 package org.perficient.registrationsystem.model;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -7,6 +9,7 @@ import java.io.Serializable;
  *
  * @Author Ivan Camilo Rincon Saavedra
  */
+@Data
 public class BaseEntity implements Serializable {
     private Long id;
 

@@ -22,3 +22,12 @@ The following guides illustrate how to use some features concretely:
 * [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
 * [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
 
+
+## Entity diagram
+
+<img src="./resources/images/01-entity-diagram.png" alt="entity-diagram" />
+
+## Class diagram
+
+
+<img src="./resources/images/02-class-diagram.png" alt="class-diagram" />

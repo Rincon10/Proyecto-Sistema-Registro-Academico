@@ -1,5 +1,6 @@
 package org.perficient.registrationsystem.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -11,5 +12,5 @@ public class Subject extends BaseEntity {
 
     private String acronym;
     private String name;
-    private Set<Subject> prerequisites;
+    private Set<Subject> prerequisites =  new HashSet<>();
 }

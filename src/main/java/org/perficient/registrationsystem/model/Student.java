@@ -7,7 +7,7 @@ import java.util.Set;
  *
  * @Author Ivan Camilo Rincon Saavedra
  */
-public class Student extends User{
+public class Student extends User {
 
     private Integer semester;
     private Set<Group> currentGroups;

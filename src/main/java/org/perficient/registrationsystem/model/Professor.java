@@ -13,5 +13,4 @@ public class Professor extends User {
 
     private Department department;
     private Set<Group> teachingIn;
-
 }

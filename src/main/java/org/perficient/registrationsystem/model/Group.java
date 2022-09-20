@@ -1,5 +1,6 @@
 package org.perficient.registrationsystem.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -9,7 +10,8 @@ import java.util.Set;
  */
 public class Group extends BaseEntity{
 
-    private Set<Student> students;
     private Professor professor;
     private Subject subject;
+    private Set<Student> students = new HashSet<>();
+
 }

@@ -12,7 +12,6 @@ import org.perficient.registrationsystem.model.Student;
  */
 @Mapper
 public interface StudentMapper {
-    StudentMapper INSTANCE = Mappers.getMapper(StudentMapper.class);
 
     StudentDto studentToStudentDto(Student student);
 

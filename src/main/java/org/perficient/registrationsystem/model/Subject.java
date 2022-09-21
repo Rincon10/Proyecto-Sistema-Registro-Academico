@@ -2,6 +2,7 @@ package org.perficient.registrationsystem.model;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,9 +12,17 @@ import java.util.Set;
  * @Author Ivan Camilo Rincon Saavedra
  */
 @Data
+@Entity
+@Table(name = "subjects")
 public class Subject extends BaseEntity {
-
     private String acronym;
     private String name;
-    private Set<Subject> prerequisites =  new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
+    private Set<Group> groups = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "prerequisites", joinColumns = @JoinColumn(name = "subject1_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject2_id"))
+    private Set<Subject> prerequisites = new HashSet<>();
 }

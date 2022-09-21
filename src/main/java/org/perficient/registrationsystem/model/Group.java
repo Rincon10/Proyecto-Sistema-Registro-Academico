@@ -2,6 +2,7 @@ package org.perficient.registrationsystem.model;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,10 +13,23 @@ import java.util.Set;
  */
 
 @Data
-public class Group extends BaseEntity{
+@Entity
+@Table(name = "groups")
+public class Group extends BaseEntity {
 
+    private Long number;
+
+    @ManyToOne
+    @JoinColumn(name = "professor_id")
     private Professor professor;
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
     private Subject subject;
+
+    @ManyToMany
+    @JoinTable(name = "student_group", joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
     private Set<Student> students = new HashSet<>();
 
 }

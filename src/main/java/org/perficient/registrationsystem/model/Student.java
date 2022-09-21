@@ -2,6 +2,10 @@ package org.perficient.registrationsystem.model;
 
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import java.util.Set;
 
 /**
@@ -9,9 +13,14 @@ import java.util.Set;
  *
  * @Author Ivan Camilo Rincon Saavedra
  */
-@Data
-public class Student extends User {
 
+@Data
+@Entity
+@Table(name = "students")
+@PrimaryKeyJoinColumn(referencedColumnName = "id")
+public class Student extends User {
     private Integer semester;
+
+    @ManyToMany(mappedBy = "students")
     private Set<Group> currentGroups;
 }

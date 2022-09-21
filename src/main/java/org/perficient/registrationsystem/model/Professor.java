@@ -3,6 +3,7 @@ package org.perficient.registrationsystem.model;
 import lombok.Data;
 import org.perficient.registrationsystem.model.enums.Department;
 
+import javax.persistence.*;
 import java.util.Set;
 
 /**
@@ -10,9 +11,15 @@ import java.util.Set;
  *
  * @Author Ivan Camilo Rincon Saavedra
  */
-@Data
-public class Professor extends User {
 
+@Data
+@Entity
+@Table(name = "professors")
+@PrimaryKeyJoinColumn(referencedColumnName = "id")
+public class Professor extends User {
+    @Enumerated(EnumType.STRING)
     private Department department;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "professor")
     private Set<Group> teachingIn;
 }

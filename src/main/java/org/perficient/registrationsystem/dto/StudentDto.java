@@ -15,8 +15,8 @@ import java.util.Set;
 
 @Data
 public class StudentDto {
-//    @Min(0)
-//    @Max(10)
+    @Min(0)
+    @Max(10)
     private Integer semester;
     private Set<Group> currentGroups;
 }

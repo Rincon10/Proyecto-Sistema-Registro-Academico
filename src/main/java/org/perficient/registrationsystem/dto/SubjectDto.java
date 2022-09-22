@@ -16,7 +16,7 @@ import java.util.Set;
 @Data
 public class SubjectDto {
 
-//    @Length(max = 6)
+    @Length(max = 6)
     private String acronym;
     private String name;
     private Set<Subject> prerequisites = new HashSet<>();

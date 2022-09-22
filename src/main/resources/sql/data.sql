@@ -18,3 +18,7 @@ INSERT INTO SUBJECTS (acronym, name) VALUES ('SPTI', 'Seguridad y privacidad de 
 INSERT INTO SUBJECTS (acronym, name) VALUES ('ARSW', 'Arquitecturas de software');
 INSERT INTO SUBJECTS (acronym, name) VALUES ('SIML', 'Seminario de insercion laboral');
 INSERT INTO SUBJECTS (acronym, name) VALUES ('IETI', 'Innovacion y emprendimiento');
+
+--Users
+
+INSERT INTO USERS (email, first_name, last_name, password ) VALUES('ivan.rincon-s@mail.escuelaing.edu.co','Ivan Camilo','Rincon Saavedra','12345');

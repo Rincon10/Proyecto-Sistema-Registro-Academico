@@ -24,8 +24,11 @@ public class DataInitializer {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    public void loadData(){
-        ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator(false, false,"UTF-8", new ClassPathResource("data.sql"));
-        resourceDatabasePopulator.execute(dataSource);
+    public void loadData() {
+        ResourceDatabasePopulator resourceDatabasePopulator1 = new ResourceDatabasePopulator(false, false, "UTF-8", new ClassPathResource("sql/data.sql"));
+        ResourceDatabasePopulator resourceDatabasePopulator2 = new ResourceDatabasePopulator(false, false, "UTF-8", new ClassPathResource("sql/triggers.sql"));
+
+        resourceDatabasePopulator2.execute(dataSource);
+        resourceDatabasePopulator1.execute(dataSource);
     }
 }

@@ -7,3 +7,6 @@ docker run --name postgresql -e POSTGRES_USER=postgresql -e POSTGRES_PASSWORD=po
 docker exec -it <container_id/container_name> psql -U <user_name> <database_name>
 
 psql -U postgresql
+
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.url= jdbc:postgresql://localhost:5432/postgresql?user=postgresql&password=postgresql

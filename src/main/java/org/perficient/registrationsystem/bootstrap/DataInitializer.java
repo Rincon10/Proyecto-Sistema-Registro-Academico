@@ -14,7 +14,7 @@ import javax.sql.DataSource;
  *
  * @Author Iván Camilo Rincon Saavedra
  */
-//@Component
+@Component
 public class DataInitializer {
 
     private final DataSource dataSource;
@@ -23,9 +23,9 @@ public class DataInitializer {
         this.dataSource = dataSource;
     }
 
-//    @EventListener(ApplicationReadyEvent.class)
-//    public void loadData(){
-//        ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator(false, false,"UTF-8", new ClassPathResource("data.sql"));
-//        resourceDatabasePopulator.execute(dataSource);
-//    }
+    @EventListener(ApplicationReadyEvent.class)
+    public void loadData(){
+        ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator(false, false,"UTF-8", new ClassPathResource("data.sql"));
+        resourceDatabasePopulator.execute(dataSource);
+    }
 }

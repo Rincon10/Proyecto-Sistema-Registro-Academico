@@ -1,0 +1,20 @@
+--Subjects
+INSERT INTO Subjects VALUES ('INSI', 'Introduccion a la ingenieria de sistemas');
+INSERT INTO Subjects VALUES ('MMIN', 'Modelos matematicos para informatica');
+INSERT INTO Subjects VALUES ('AYPR', 'Algoritmos y programacion');
+INSERT INTO Subjects VALUES ('LCAT', 'Logica calculatoria');
+INSERT INTO Subjects VALUES ('AYED', 'Algoritmos y estructuras de datos');
+INSERT INTO Subjects VALUES ('MATD', 'Matematicas discretas');
+INSERT INTO Subjects VALUES ('CNYT', 'Ciencias naturales y tecnologia');
+INSERT INTO Subjects VALUES ('MBDA', 'Modelos y bases de datos');
+INSERT INTO Subjects VALUES ('TPRO', 'Teoria de la programacion');
+INSERT INTO Subjects VALUES ('POOB', 'Programacion orientada a objetos');
+INSERT INTO Subjects VALUES ('ACSO', 'Arquitectura computacional');
+INSERT INTO Subjects VALUES ('TSOR', 'Teoria de sistemas y organizaciones');
+INSERT INTO Subjects VALUES ('RECO', 'Redes de computadores');
+INSERT INTO Subjects VALUES ('CVDS', 'Ciclos de vida de desarrollo de softw); 4);
+INSERT INTO Subjects VALUES ('AUPN', 'Automatizacion de procesos de negocio);;
+INSERT INTO Subjects VALUES ('SPTI', 'Seguridad y privacidad de TI');
+INSERT INTO Subjects VALUES ('ARSW', 'Arquitecturas de software');
+INSERT INTO Subjects VALUES ('SIML', 'Seminario de insercion laboral');
+INSERT INTO Subjects VALUES ('IETI', 'Innovacion y emprendimiento');

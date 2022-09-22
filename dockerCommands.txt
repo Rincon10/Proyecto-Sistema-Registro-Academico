@@ -1,0 +1,9 @@
+docker images
+
+docker ps
+
+docker run --name postgresql -e POSTGRES_USER=postgresql -e POSTGRES_PASSWORD=postgresql -p 5432:5432 -v /data:/var/lib/postgresql/data -d postgres
+
+docker exec -it <container_id/container_name> psql -U <user_name> <database_name>
+
+psql -U postgresql

@@ -1,11 +1,10 @@
 package org.perficient.registrationsystem.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.perficient.registrationsystem.model.Group;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Set;
 
 /**
@@ -14,11 +13,10 @@ import java.util.Set;
  * @Author Iván Camilo Rincon Saavedra
  */
 
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class StudentDto {
+//    @Min(0)
+//    @Max(10)
     private Integer semester;
     private Set<Group> currentGroups;
 }

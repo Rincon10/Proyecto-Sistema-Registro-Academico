@@ -1,9 +1,6 @@
 package org.perficient.registrationsystem.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.perficient.registrationsystem.model.Group;
 import org.perficient.registrationsystem.model.enums.Department;
 
@@ -14,10 +11,7 @@ import java.util.Set;
  *
  * @Author Iván Camilo Rincon Saavedra
  */
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class ProfessorDto {
 
     private Department department;

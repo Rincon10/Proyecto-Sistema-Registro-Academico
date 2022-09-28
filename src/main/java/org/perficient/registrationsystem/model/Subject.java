@@ -15,6 +15,7 @@ import java.util.Set;
 @Entity
 @Table(name = "subjects")
 public class Subject extends BaseEntity {
+    @Column(nullable = false, unique = true)
     private String acronym;
     private String name;
 

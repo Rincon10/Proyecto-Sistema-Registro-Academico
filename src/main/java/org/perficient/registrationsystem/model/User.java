@@ -3,6 +3,7 @@ package org.perficient.registrationsystem.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Class USer created on 9/19/2022
@@ -15,11 +16,13 @@ import javax.persistence.*;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User extends BaseEntity {
-    protected String firstName;
-    protected String lastName;
+    private String firstName;
+    private String lastName;
 
-    protected String createdAt;
-    protected String email;
-    protected String password;
+    private String createdAt = new Date().toString();
+
+    @Column(nullable = false, unique = true)
+    private String email;
+    private String password;
 
 }

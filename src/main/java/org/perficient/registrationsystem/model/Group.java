@@ -3,6 +3,7 @@ package org.perficient.registrationsystem.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ public class Group extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Positive
     private Integer number;
 
     @ManyToOne

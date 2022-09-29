@@ -21,7 +21,7 @@ public class Group extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Long number;
+    private Integer number;
 
     @ManyToOne
     @JoinColumn(name = "professor_id")

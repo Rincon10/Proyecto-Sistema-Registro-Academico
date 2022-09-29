@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.perficient.registrationsystem.model.Subject;
 
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ public class SubjectDto {
 
     @Length(max = 6)
     private String acronym;
+    @NotNull
     private String name;
-    private Set<Subject> prerequisites = new HashSet<>();
+    private Set<SubjectDto> prerequisites = new HashSet<>();
 }

@@ -1,7 +1,9 @@
 package org.perficient.registrationsystem.model;
 
 import lombok.Data;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -28,5 +30,12 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
     private String password;
+
+    @PostConstruct
+    private void hashPassword() {
+        if (this.password != null) {
+            this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        }
+    }
 
 }

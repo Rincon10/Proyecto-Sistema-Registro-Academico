@@ -2,9 +2,9 @@ package org.perficient.registrationsystem.dto;
 
 import lombok.Data;
 import org.perficient.registrationsystem.model.Professor;
-import org.perficient.registrationsystem.model.Student;
 import org.perficient.registrationsystem.model.Subject;
 
+import javax.validation.constraints.Positive;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +16,10 @@ import java.util.Set;
 
 @Data
 public class GroupDto {
-    private Professor professor;
-    private Subject subject;
-    private Set<Student> students = new HashSet<>();
+    @Positive
+    private Integer number;
+
+    private ProfessorDto professor;
+    private SubjectDto subject;
+    private Set<StudentDto> students = new HashSet<>();
 }

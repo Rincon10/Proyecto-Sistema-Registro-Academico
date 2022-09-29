@@ -1,7 +1,6 @@
 package org.perficient.registrationsystem.dto;
 
-import lombok.*;
-import org.perficient.registrationsystem.model.Group;
+import lombok.Data;
 import org.perficient.registrationsystem.model.enums.Department;
 
 import java.util.Set;
@@ -12,8 +11,8 @@ import java.util.Set;
  * @Author Iván Camilo Rincon Saavedra
  */
 @Data
-public class ProfessorDto {
+public class ProfessorDto extends UserDto {
 
     private Department department;
-    private Set<Group> teachingIn;
+    private Set<GroupDto> teachingIn;
 }

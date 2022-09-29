@@ -17,6 +17,10 @@ import java.util.Set;
 @Table(name = "groups")
 public class Group extends BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private Long number;
 
     @ManyToOne

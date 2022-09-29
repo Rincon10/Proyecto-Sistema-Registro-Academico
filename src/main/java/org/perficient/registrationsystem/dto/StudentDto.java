@@ -1,6 +1,7 @@
 package org.perficient.registrationsystem.dto;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 import org.perficient.registrationsystem.model.Group;
 
 import javax.validation.constraints.Max;
@@ -15,8 +16,7 @@ import java.util.Set;
 
 @Data
 public class StudentDto {
-    @Min(0)
-    @Max(10)
+    @Range(min = 0, max = 10)
     private Integer semester;
     private Set<Group> currentGroups;
 }

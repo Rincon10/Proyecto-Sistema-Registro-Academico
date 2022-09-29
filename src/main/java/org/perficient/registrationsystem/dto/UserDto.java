@@ -2,8 +2,10 @@ package org.perficient.registrationsystem.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 /**
  * Class UserDto Created on 20/09/2022
@@ -17,7 +19,17 @@ public class UserDto {
     private String lastName;
 
     @Email
+    @NotNull
     private String email;
-    @Length(min = 6)
+
+    @NotNull
+    @Length(min = 6, max = 100)
     private String password;
+
+    public void setPassword(String password) {
+        if (password != null) {
+            this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        }
+    }
+
 }

@@ -1,7 +1,6 @@
 package org.perficient.registrationsystem.services;
 
 import org.perficient.registrationsystem.dto.UserDto;
-import org.perficient.registrationsystem.model.User;
 
 import java.util.Set;
 
@@ -11,8 +10,8 @@ import java.util.Set;
  * @Author Iván Camilo Rincon Saavedra
  */
 public interface UserService {
-    Set<User> getUsers();
+    Set<UserDto> getUsers();
 
-    User addUser(UserDto userDto);
+    UserDto addUser(UserDto userDto);
 
 }

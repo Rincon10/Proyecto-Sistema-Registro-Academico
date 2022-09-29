@@ -5,6 +5,7 @@ import org.perficient.registrationsystem.model.Professor;
 import org.perficient.registrationsystem.model.Subject;
 
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +16,7 @@ import java.util.Set;
  */
 
 @Data
-public class GroupDto {
+public class GroupDto implements Serializable {
     @Positive
     private Integer number;
 

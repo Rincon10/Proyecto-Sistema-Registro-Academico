@@ -21,4 +21,28 @@ INSERT INTO SUBJECTS (acronym, name) VALUES ('IETI', 'Innovacion y emprendimient
 
 --Users
 
-INSERT INTO USERS (email, first_name, last_name, password ) VALUES('ivan.rincon-s@mail.escuelaing.edu.co','Ivan Camilo','Rincon Saavedra','12345');
+INSERT INTO USERS (email, first_name, last_name, password ) VALUES('ivan.rincon-s@mail.escuelaing.edu.co','Ivan Camilo','Rincon Saavedra','$2a$10$8v6UIThCb9JdpuoIxZybSOY4ezqaEVhn7Z0zujaQUpbZ9B3FQsatm');
+INSERT INTO USERS (email, first_name, last_name, password ) VALUES('leidy.rincon-s@mail.escuelaing.edu.co','Leidy Alejandra','Rincon Saavedra','$2a$10$8v6UIThCb9JdpuoIxZybSOY4ezqaEVhn7Z0zujaQUpbZ9B3FQsatm');
+
+-- Students
+INSERT INTO STUDENTS (id, semester) VALUES(1,10);
+
+-- Professors
+
+INSERT INTO Professors (id, Department) VALUES(2,'MATH_DEPARTMENT');
+
+-- Groups
+
+--INSERT INTO Groups(id, number, professor_id, subject_acronym, start_time, end_time ) VALUES (1,1,2,'MATD','13:00:00','16:00:59');
+
+-- Student_group
+
+INSERT INTO student_group (group_id, student_id) VALUES(1,1);
+
+-- Prerrequisites
+
+INSERT INTO prerequisites values('MATD', 'LCAT');
+INSERT INTO prerequisites values('MATD', 'MMIN');
+
+
+

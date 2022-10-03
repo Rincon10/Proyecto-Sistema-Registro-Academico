@@ -1,7 +1,6 @@
 package org.perficient.registrationsystem.mappers;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import org.perficient.registrationsystem.dto.GroupDto;
 import org.perficient.registrationsystem.model.Group;
 

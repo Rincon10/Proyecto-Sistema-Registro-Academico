@@ -45,6 +45,33 @@ public class GroupController {
         return groupService.findGroupById(id);
     }
 
+    //POST
+
+    @PostMapping
+    @ResponseBody
+    public ResponseEntity<?> addGroup(@Valid @RequestBody GroupDto groupDto, BindingResult result) throws SQLException {
+        if (result.hasErrors()) {
+            List<String> errors = new ArrayList<>();
+
+            result.getFieldErrors()
+                    .stream()
+                    .map(f -> "The field " + f.getField() + " " + f.getDefaultMessage())
+                    .forEach(errors::add);
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(groupService.addGroup(groupDto), HttpStatus.OK);
+    }
+
+    //PUT
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<?> updateGroupById(@PathVariable Integer id,
+                                             @Valid @RequestBody GroupDto groupDto, BindingResult result) throws Exception {
+        return new ResponseEntity<>(groupService.updateGroupById(id, groupDto), HttpStatus.OK);
+
+    }
+
+
 
     //HANDLER EXCEPTION
     @ResponseBody

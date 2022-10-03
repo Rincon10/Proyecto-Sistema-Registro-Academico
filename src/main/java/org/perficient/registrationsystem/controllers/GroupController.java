@@ -71,7 +71,11 @@ public class GroupController {
 
     }
 
-
+    //DELETE
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Integer id) throws SQLException {
+        return new ResponseEntity<>(groupService.deleteGroupById(id), HttpStatus.OK);
+    }
 
     //HANDLER EXCEPTION
     @ResponseBody

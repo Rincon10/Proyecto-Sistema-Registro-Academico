@@ -35,37 +35,16 @@ public class GroupController {
 
     @GetMapping
     @ResponseBody
-    public Set<GroupDto> getAllGroups() {
+    public Set<GroupDto> getAllGroups() throws SQLException {
         return groupService.getAllGroups();
     }
 
-    //POST
-
-    @PostMapping
+    @GetMapping(path = "/{id}")
     @ResponseBody
-    public ResponseEntity<?> addGroup(@Valid @RequestBody GroupDto groupDto, BindingResult result) throws SQLException {
-        if (result.hasErrors()) {
-            List<String> errors = new ArrayList<>();
-
-            result.getFieldErrors()
-                    .stream()
-                    .map(f -> "The field " + f.getField() + " " + f.getDefaultMessage())
-                    .forEach(errors::add);
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(groupService.addGroup(groupDto), HttpStatus.OK);
+    public GroupDto getGroupById(@PathVariable Integer id) throws SQLException {
+        return groupService.findGroupById(id);
     }
 
-    //PUT
-
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<?> updateGroupById(@PathVariable Integer id,
-                                             @Valid @RequestBody GroupDto groupDto, BindingResult result) throws Exception {
-        return new ResponseEntity<>(groupService.updateGroupById(id, groupDto), HttpStatus.OK);
-
-    }
-
-    //DELETE
 
     //HANDLER EXCEPTION
     @ResponseBody
@@ -73,7 +52,7 @@ public class GroupController {
     @ExceptionHandler(SQLException.class)
     public ServerErrorResponseDto defaultHandlerException(Exception e) {
 
-        ServerErrorResponseDto response = new ServerErrorResponseDto(e.getMessage(), e.getCause(),HttpStatus.BAD_REQUEST);
+        ServerErrorResponseDto response = new ServerErrorResponseDto(e.getMessage(), e.getCause(), HttpStatus.BAD_REQUEST.value());
         Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, e.getMessage());
         return response;
     }

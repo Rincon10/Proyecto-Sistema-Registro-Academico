@@ -10,6 +10,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,15 +42,14 @@ public class GroupRepositoryTest {
     @Test
     public void shouldAddAGroup() {
         // given
+        Integer number = 1;
         Group group = new Group();
-        group.setId(1);
-        group.setNumber(1);
+        group.setNumber(number);
 
         // when
         Group savedGroup = repository.save(group);
 
         // then
-        assertThat(savedGroup).hasFieldOrPropertyWithValue("id", 1);
         assertThat(savedGroup).hasFieldOrPropertyWithValue("number", 1);
     }
 
@@ -77,10 +78,14 @@ public class GroupRepositoryTest {
     @Test
     public void findGroupByIdWhenExists() {
         // given
-        Integer id = 1;
+        List<Group> groups = new ArrayList<>();
         Group group = new Group();
-        group.setId(id);
         repository.save(group);
+
+        repository.findAll()
+                .iterator().
+                forEachRemaining(groups::add);
+        Integer id = groups.get(0).getId();
 
         // when
         Group optional = repository.findById(id).get();
@@ -93,7 +98,7 @@ public class GroupRepositoryTest {
     @Test
     public void emptyGroupWhenIdDoesntExists() {
         // given
-        Integer id = 100;
+        Integer id = -1;
 
         // when
         Optional<Group> optional = repository.findById(id);
@@ -106,7 +111,7 @@ public class GroupRepositoryTest {
     @Test
     public void shouldUpdateGroupById() {
         // given
-        Integer id = 1;
+        List<Group> groups = new ArrayList<>();
         Time sqlTime1 = Time.valueOf("18:45:20");
         Time sqlTime2 = Time.valueOf("10:00:20");
 
@@ -116,13 +121,19 @@ public class GroupRepositoryTest {
         assertThat(group.getStartTime()).isEqualTo(sqlTime1);
         repository.save(group);
 
+        repository.findAll()
+                .iterator().
+                forEachRemaining(groups::add);
+
+        Integer id = groups.get(0).getId();
+
         // when
-        Group savedGroup = repository.findById(1).get();
+        Group savedGroup = repository.findById(id).get();
 
         savedGroup.setStartTime(sqlTime2);
 
         // then
-        Group savedGroup2 = repository.findById(1).get();
+        Group savedGroup2 = repository.findById(id).get();
 
         assertThat(savedGroup2.getStartTime()).isEqualTo(savedGroup.getStartTime());
     }
@@ -130,11 +141,15 @@ public class GroupRepositoryTest {
     @Test
     public void shouldDeleteAGroupById() {
         // given
-        Integer id = 1;
-
+        List<Group> list = new ArrayList<>();
         Group group = new Group();
 
         repository.save(group);
+        repository.findAll()
+                .iterator().
+                forEachRemaining(list::add);
+
+        Integer id = list.get(0).getId();
 
         // when
         repository.deleteById(id);

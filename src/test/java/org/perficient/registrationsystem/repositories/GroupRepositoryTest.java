@@ -1,14 +1,13 @@
 package org.perficient.registrationsystem.repositories;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.perficient.registrationsystem.model.Group;
-import org.perficient.registrationsystem.model.Professor;
 import org.perficient.registrationsystem.model.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -60,7 +59,7 @@ public class GroupRepositoryTest {
         assertThat(savedGroup).hasFieldOrPropertyWithValue("number", 1);
     }
 
-    @Test(expected = ConstraintViolationException.class)
+    @Test(expected = DataIntegrityViolationException.class)
     public void shouldFailAddingAGroupForSameGroup() {
         // given
         Integer number = 1;

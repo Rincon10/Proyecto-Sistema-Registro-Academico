@@ -1,9 +1,12 @@
 package org.perficient.registrationsystem.repositories;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.perficient.registrationsystem.model.Group;
+import org.perficient.registrationsystem.model.Professor;
+import org.perficient.registrationsystem.model.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -25,6 +28,9 @@ public class GroupRepositoryTest {
     @Autowired
     GroupRepository repository;
 
+    @Autowired
+    SubjectRepository subjectRepository;
+
     @Before
     public void setUp() throws Exception {
 
@@ -44,6 +50,7 @@ public class GroupRepositoryTest {
         // given
         Integer number = 1;
         Group group = new Group();
+
         group.setNumber(number);
 
         // when
@@ -51,6 +58,35 @@ public class GroupRepositoryTest {
 
         // then
         assertThat(savedGroup).hasFieldOrPropertyWithValue("number", 1);
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void shouldFailAddingAGroupForSameGroup() {
+        // given
+        Integer number = 1;
+
+        Group group1 = new Group();
+        Group group2 = new Group();
+        Subject subject = new Subject();
+
+        subject.setAcronym("MATD");
+        subject.setName("Matematicas Discretas");
+
+        subjectRepository.save(subject);
+
+        group1.setSubject(subject);
+        group2.setSubject(subject);
+
+
+        group1.setNumber(number);
+        group2.setNumber(number);
+
+        // when
+        repository.save(group1);
+        repository.save(group2);
+
+        // then we expect an ConstraintViolationException because we are trying to add twice the same group
+
     }
 
     @Test

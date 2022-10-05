@@ -5,11 +5,12 @@ import org.perficient.registrationsystem.mappers.GroupMapper;
 import org.perficient.registrationsystem.model.Group;
 import org.perficient.registrationsystem.repositories.GroupRepository;
 import org.perficient.registrationsystem.services.GroupService;
+import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -31,9 +32,9 @@ public class GroupServiceImpl implements GroupService {
         this.groupMapper = mapper;
     }
 
-    private Group findById(Integer id) throws SQLException {
+    private Group findById(Integer id) throws Exception {
         Optional<Group> group = groupRepository.findById(id);
-        group.orElseThrow(() -> new SQLException("The Group that you are looking for doesn't exists."));
+        group.orElseThrow(() -> new ServerErrorException(ServerErrorException.DOESNT_EXITS, HttpStatus.NOT_FOUND.value()));
 
         group.get().getProfessor().setPassword(null);
         return group.get();
@@ -54,23 +55,26 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public GroupDto findGroupById(Integer id) throws SQLException {
+    public GroupDto findGroupById(Integer id) throws Exception {
         Group group = findById(id);
 
         return groupMapper.groupToGroupDto(group);
     }
 
     @Override
-    public Boolean addGroup(GroupDto groupDto) throws SQLException {
+    public Boolean addGroup(GroupDto groupDto) throws Exception {
         Group group = groupMapper.groupDtoToGroup(groupDto);
-        groupRepository.save(group);
-        return true;
-
+        try {
+            groupRepository.save(group);
+            return true;
+        } catch (Exception e) {
+            throw new ServerErrorException(ServerErrorException.ALREADY_EXITS, HttpStatus.FORBIDDEN.value());
+        }
     }
 
     @Override
     @Transactional
-    public GroupDto updateGroupById(Integer id, GroupDto groupDto) throws SQLException {
+    public GroupDto updateGroupById(Integer id, GroupDto groupDto) throws Exception {
         //Checking if the user exists
         Group group = findById(id);
         //Updating
@@ -78,9 +82,10 @@ public class GroupServiceImpl implements GroupService {
         groupRepository.save(group);
         return groupDto;
     }
+
     @Transactional
     @Override
-    public Boolean deleteGroupById(Integer id) throws SQLException {
+    public Boolean deleteGroupById(Integer id) throws Exception {
         //Checking if the user exists
         findById(id);
         groupRepository.deleteById(id);

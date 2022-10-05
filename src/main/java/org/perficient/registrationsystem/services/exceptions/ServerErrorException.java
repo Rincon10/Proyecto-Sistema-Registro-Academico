@@ -14,16 +14,16 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ServerErrorResponseDtoException extends Exception {
+public class ServerErrorException extends Exception {
     public static final String DOESNT_EXITS = "The Group that you are looking for doesn't exists.";
-    public static final String ALREADY_EXITS = "The Group that you are looking for doesn't exists.";
+    public static final String ALREADY_EXITS = "The Group that you are trying to add already exists.";
 
 
     private String message;
     private String timeStamp = new Date().toString();
     private int httpStatus;
 
-    public ServerErrorResponseDtoException(String message, int httpStatus) {
+    public ServerErrorException(String message, int httpStatus) {
         this.message = message;
         this.httpStatus = httpStatus;
     }

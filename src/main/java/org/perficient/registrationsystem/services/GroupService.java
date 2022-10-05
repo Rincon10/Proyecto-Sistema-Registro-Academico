@@ -2,7 +2,6 @@ package org.perficient.registrationsystem.services;
 
 import org.perficient.registrationsystem.dto.GroupDto;
 
-import java.sql.SQLException;
 import java.util.Set;
 
 /**
@@ -13,16 +12,16 @@ import java.util.Set;
 public interface GroupService {
 
     //GET
-    Set<GroupDto> getAllGroups() throws SQLException;
+    Set<GroupDto> getAllGroups() throws Exception;
 
-    GroupDto findGroupById(Integer id) throws SQLException;
+    GroupDto findGroupById(Integer id) throws Exception;
 
     //ADD
-    Boolean addGroup(GroupDto groupDto) throws SQLException;
+    Boolean addGroup(GroupDto groupDto) throws Exception;
 
     //UPDATE
-    GroupDto updateGroupById(Integer id, GroupDto groupDto) throws SQLException;
+    GroupDto updateGroupById(Integer id, GroupDto groupDto) throws Exception;
 
     //DELETE
-    Boolean deleteGroupById(Integer id) throws SQLException;
+    Boolean deleteGroupById(Integer id) throws Exception;
 }

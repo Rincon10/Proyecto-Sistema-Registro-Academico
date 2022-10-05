@@ -1,8 +1,9 @@
 package org.perficient.registrationsystem.controllers;
 
 import org.perficient.registrationsystem.dto.GroupDto;
-import org.perficient.registrationsystem.dto.server.ServerErrorResponseDto;
+import org.perficient.registrationsystem.dto.server.ServerResponseDto;
 import org.perficient.registrationsystem.services.GroupService;
+import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -31,17 +31,31 @@ public class GroupController {
         this.groupService = groupService;
     }
 
+    private void throwExceptionForInvalidData(BindingResult result) throws ServerErrorException {
+        List<String> errors = new ArrayList<>();
+
+        result.getFieldErrors()
+                .stream()
+                .map(f -> "The field " + f.getField() + " " + f.getDefaultMessage())
+                .forEach(errors::add);
+
+        throw new ServerErrorException(errors.toString(), HttpStatus.BAD_REQUEST.value());
+
+    }
+
     //GET
 
     @GetMapping
     @ResponseBody
-    public Set<GroupDto> getAllGroups() throws SQLException {
+    @ResponseStatus(HttpStatus.OK)
+    public Set<GroupDto> getAllGroups() throws Exception {
         return groupService.getAllGroups();
     }
 
     @GetMapping(path = "/{id}")
     @ResponseBody
-    public GroupDto getGroupById(@PathVariable Integer id) throws SQLException {
+    @ResponseStatus(HttpStatus.OK)
+    public GroupDto getGroupById(@PathVariable Integer id) throws Exception {
         return groupService.findGroupById(id);
     }
 
@@ -49,22 +63,18 @@ public class GroupController {
 
     @PostMapping
     @ResponseBody
-    public ResponseEntity<?> addGroup(@Valid @RequestBody GroupDto groupDto, BindingResult result) throws SQLException {
-        if (result.hasErrors()) {
-            List<String> errors = new ArrayList<>();
+    @ResponseStatus(HttpStatus.CREATED)
+    public Boolean addGroup(@Valid @RequestBody GroupDto groupDto, BindingResult result) throws Exception {
+        if (result.hasErrors()) throwExceptionForInvalidData(result);
 
-            result.getFieldErrors()
-                    .stream()
-                    .map(f -> "The field " + f.getField() + " " + f.getDefaultMessage())
-                    .forEach(errors::add);
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(groupService.addGroup(groupDto), HttpStatus.OK);
+        return groupService.addGroup(groupDto);
     }
 
     //PUT
 
     @PutMapping(path = "/{id}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public ResponseEntity<?> updateGroupById(@PathVariable Integer id,
                                              @Valid @RequestBody GroupDto groupDto, BindingResult result) throws Exception {
         return new ResponseEntity<>(groupService.updateGroupById(id, groupDto), HttpStatus.OK);
@@ -73,18 +83,21 @@ public class GroupController {
 
     //DELETE
     @DeleteMapping(path = "/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Integer id) throws SQLException {
-        return new ResponseEntity<>(groupService.deleteGroupById(id), HttpStatus.OK);
+    @ResponseBody
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Boolean deleteById(@PathVariable Integer id) throws Exception {
+        return groupService.deleteGroupById(id);
     }
 
     //HANDLER EXCEPTION
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(SQLException.class)
-    public ServerErrorResponseDto defaultHandlerException(Exception e) {
 
-        ServerErrorResponseDto response = new ServerErrorResponseDto(e.getMessage(), e.getCause(), HttpStatus.BAD_REQUEST.value());
-        Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, e.getMessage());
-        return response;
+    @ExceptionHandler(ServerErrorException.class)
+    public ResponseEntity<?> serverErrorResponseHandlerException(ServerErrorException e) {
+        String message = e.getMessage();
+        int httpStatus = e.getHttpStatus();
+
+        Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, message);
+
+        return new ResponseEntity<>(new ServerResponseDto(message, httpStatus), HttpStatus.valueOf(httpStatus));
     }
 }

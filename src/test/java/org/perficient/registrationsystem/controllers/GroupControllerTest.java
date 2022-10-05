@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 import org.perficient.registrationsystem.dto.GroupDto;
 import org.perficient.registrationsystem.dto.ProfessorDto;
 import org.perficient.registrationsystem.dto.SubjectDto;
+import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
 import org.perficient.registrationsystem.model.enums.Department;
 import org.perficient.registrationsystem.services.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,7 +179,7 @@ public class GroupControllerTest {
                 .getResponse();
 
         // then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
 
         assertThat(response.getContentAsString())
                 .isEqualTo("true");
@@ -219,7 +220,7 @@ public class GroupControllerTest {
         groupDto.setId(id);
 
         given(groupService.updateGroupById(id, groupDto))
-                .willThrow(new SQLException());
+                .willThrow(new ServerErrorException(ServerErrorException.DOESNT_EXITS, HttpStatus.NOT_FOUND.value()));
 
         String jsonGroup = mapToJson(groupDto);
 
@@ -230,7 +231,7 @@ public class GroupControllerTest {
                 .getResponse();
 
         // then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 
     @Test
@@ -255,13 +256,14 @@ public class GroupControllerTest {
         Integer id = -100;
 
         // when
-        when(groupService.deleteGroupById(id)).thenThrow(SQLException.class);
+        given(groupService.deleteGroupById(id))
+                .willThrow(new ServerErrorException(ServerErrorException.DOESNT_EXITS, HttpStatus.NOT_FOUND.value()));
 
         MockHttpServletResponse response = mockMvc.perform(delete(String.format("%s/%s", PATH, id)))
                 .andReturn()
                 .getResponse();
 
         // then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
     }
 }

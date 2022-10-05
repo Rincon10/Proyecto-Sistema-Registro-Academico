@@ -1,7 +1,6 @@
 package org.perficient.registrationsystem.dto.server;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,18 +12,19 @@ import java.util.Date;
  * @Author Iván Camilo Rincon Saavedra
  */
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ServerErrorResponseDto {
+public class ServerErrorResponseDtoException extends Exception {
+    public static final String DOESNT_EXITS = "The Group that you are looking for doesn't exists.";
+    public static final String ALREADY_EXITS = "The Group that you are looking for doesn't exists.";
+
+
     private String message;
-    private Throwable Cause;
+    private String timeStamp = new Date().toString();
     private int httpStatus;
 
-    private String timeStamp = new Date().toString();
-
-    public ServerErrorResponseDto(String message, Throwable cause, int httpStatus) {
+    public ServerErrorResponseDtoException(String message, int httpStatus) {
         this.message = message;
-        Cause = cause;
         this.httpStatus = httpStatus;
     }
 }

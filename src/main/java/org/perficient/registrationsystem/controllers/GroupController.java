@@ -75,9 +75,11 @@ public class GroupController {
     @PutMapping(path = "/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<?> updateGroupById(@PathVariable Integer id,
-                                             @Valid @RequestBody GroupDto groupDto, BindingResult result) throws Exception {
-        return new ResponseEntity<>(groupService.updateGroupById(id, groupDto), HttpStatus.OK);
+    public GroupDto updateGroupById(@PathVariable Integer id,
+                                    @Valid @RequestBody GroupDto groupDto, BindingResult result) throws Exception {
+        if (result.hasErrors()) throwExceptionForInvalidData(result);
+        
+        return groupService.updateGroupById(id, groupDto);
 
     }
 

@@ -205,7 +205,7 @@ public class GroupControllerTest {
                 .getResponse();
 
         // then
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.ACCEPTED.value());
 
         GroupDto updatedGroup = mapFromJson(response.getContentAsString(), GroupDto.class);
 

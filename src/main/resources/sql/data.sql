@@ -33,7 +33,7 @@ INSERT INTO Professors (id, Department) VALUES(2,'MATH_DEPARTMENT');
 
 -- Groups
 
-INSERT INTO Groups(id, number, professor_id, subject_acronym, start_time, end_time ) VALUES (1,1,2,'MATD','13:00:00','16:00:59');
+INSERT INTO Groups(number, professor_id, subject_acronym, start_time, end_time ) VALUES (1,2,'MATD','13:00:00','16:00:59');
 
 -- Student_group
 

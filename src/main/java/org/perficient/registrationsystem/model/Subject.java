@@ -16,10 +16,6 @@ import java.util.Set;
 @Table(name = "subjects")
 public class Subject extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false, unique = true)
     private String acronym;
     private String name;
 

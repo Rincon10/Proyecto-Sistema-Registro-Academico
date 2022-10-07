@@ -8,6 +8,8 @@ import org.perficient.registrationsystem.mappers.SubjectMapper;
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
 import java.sql.Time;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Class Group created on 9/19/2022
@@ -48,9 +50,9 @@ public class Group extends BaseEntity {
         this.setEndTime(groupDto.getEndTime());
 
     }
-//    @ManyToMany
-//    @JoinTable(name = "student_group", joinColumns = @JoinColumn(name = "group_id"),
-//            inverseJoinColumns = @JoinColumn(name = "student_id"))
-//    private Set<Student> students = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "student_group", joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private Set<Student> students = new HashSet<>();
 
 }

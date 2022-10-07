@@ -1,8 +1,9 @@
 package org.perficient.registrationsystem.controllers;
 
 import org.perficient.registrationsystem.dto.UserDto;
+import org.perficient.registrationsystem.dto.server.ServerResponseDto;
 import org.perficient.registrationsystem.services.UserService;
-import org.perficient.registrationsystem.services.exceptions.NotFoundException;
+import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.PersistenceException;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,17 +46,20 @@ public class UserController {
 
             result.getFieldErrors()
                     .stream()
-                    .map(f->"The field " + f.getField() + f.getDefaultMessage())
+                    .map(f -> "The field " + f.getField() + f.getDefaultMessage())
                     .forEach(errors::add);
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(service.addUser(userDto), HttpStatus.OK);
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> handleNotFound() {
-        Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, NotFoundException.MESSAGE);
-        return new ResponseEntity<>(NotFoundException.MESSAGE, HttpStatus.NOT_FOUND);
+    @ExceptionHandler(ServerErrorException.class)
+    public ResponseEntity<?> handleNotFound(ServerErrorException e) {
+        String message = e.getMessage();
+        int httpStatus = e.getHttpStatus();
+
+        Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, message);
+        return new ResponseEntity<>(new ServerResponseDto(message, httpStatus), HttpStatus.valueOf(httpStatus));
     }
 
     @ExceptionHandler(PersistenceException.class)

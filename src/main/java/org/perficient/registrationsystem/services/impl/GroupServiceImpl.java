@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -32,11 +31,11 @@ public class GroupServiceImpl implements GroupService {
     }
 
     private Group findById(Integer id) throws Exception {
-        Optional<Group> group = groupRepository.findById(id);
-        group.orElseThrow(() -> new ServerErrorException(ServerErrorException.DOESNT_EXITS, HttpStatus.NOT_FOUND.value()));
+        Group group = groupRepository.findById(id)
+                .orElseThrow(() -> new ServerErrorException(ServerErrorException.DOESNT_EXITS, HttpStatus.NOT_FOUND.value()));
 
-        group.get().getProfessor().setPassword(null);
-        return group.get();
+        group.getProfessor().setPassword(null);
+        return group;
 
     }
 
@@ -44,10 +43,12 @@ public class GroupServiceImpl implements GroupService {
     public Set<GroupDto> getAllGroups() {
         Set<GroupDto> set = new HashSet<>();
 
-        groupRepository.findAll().iterator().forEachRemaining(group -> {
-            group.getProfessor().setPassword(null);
-            set.add(groupMapper.groupToGroupDto(group));
-        });
+        groupRepository.findAll()
+                .iterator()
+                .forEachRemaining(group -> {
+                    group.getProfessor().setPassword(null);
+                    set.add(groupMapper.groupToGroupDto(group));
+                });
         return set;
     }
 

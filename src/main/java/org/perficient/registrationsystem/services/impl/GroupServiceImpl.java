@@ -6,7 +6,6 @@ import org.perficient.registrationsystem.model.Group;
 import org.perficient.registrationsystem.repositories.GroupRepository;
 import org.perficient.registrationsystem.services.GroupService;
 import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +26,7 @@ public class GroupServiceImpl implements GroupService {
 
     private final GroupMapper groupMapper;
 
-    public GroupServiceImpl(@Autowired GroupRepository repository, @Autowired GroupMapper mapper) {
+    public GroupServiceImpl(GroupRepository repository, GroupMapper mapper) {
         this.groupRepository = repository;
         this.groupMapper = mapper;
     }
@@ -45,12 +44,10 @@ public class GroupServiceImpl implements GroupService {
     public Set<GroupDto> getAllGroups() {
         Set<GroupDto> set = new HashSet<>();
 
-        groupRepository.findAll()
-                .iterator()
-                .forEachRemaining(group -> {
-                    group.getProfessor().setPassword(null);
-                    set.add(groupMapper.groupToGroupDto(group));
-                });
+        groupRepository.findAll().iterator().forEachRemaining(group -> {
+            group.getProfessor().setPassword(null);
+            set.add(groupMapper.groupToGroupDto(group));
+        });
         return set;
     }
 

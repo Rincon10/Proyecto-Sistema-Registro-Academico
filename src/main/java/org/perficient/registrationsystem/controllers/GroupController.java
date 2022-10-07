@@ -4,7 +4,6 @@ import org.perficient.registrationsystem.dto.GroupDto;
 import org.perficient.registrationsystem.dto.server.ServerResponseDto;
 import org.perficient.registrationsystem.services.GroupService;
 import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -27,7 +26,7 @@ import java.util.logging.Logger;
 public class GroupController {
     private final GroupService groupService;
 
-    public GroupController(@Autowired GroupService groupService) {
+    public GroupController(GroupService groupService) {
         this.groupService = groupService;
     }
 
@@ -78,7 +77,7 @@ public class GroupController {
     public GroupDto updateGroupById(@PathVariable Integer id,
                                     @Valid @RequestBody GroupDto groupDto, BindingResult result) throws Exception {
         if (result.hasErrors()) throwExceptionForInvalidData(result);
-        
+
         return groupService.updateGroupById(id, groupDto);
 
     }

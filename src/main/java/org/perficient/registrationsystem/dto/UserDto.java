@@ -26,10 +26,4 @@ public class UserDto {
     @Length(min = 6, max = 100)
     private String password;
 
-    public void setPassword(String password) {
-        if (password != null) {
-            this.password = BCrypt.hashpw(password, BCrypt.gensalt());
-        }
-    }
-
 }

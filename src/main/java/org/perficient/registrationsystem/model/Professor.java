@@ -1,6 +1,9 @@
 package org.perficient.registrationsystem.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.perficient.registrationsystem.model.enums.Department;
 
 import javax.persistence.*;
@@ -13,6 +16,10 @@ import java.util.Set;
  */
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+
 @Entity
 @Table(name = "professors")
 @PrimaryKeyJoinColumn(referencedColumnName = "id")

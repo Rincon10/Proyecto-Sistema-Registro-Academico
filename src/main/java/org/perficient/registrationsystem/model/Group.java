@@ -1,6 +1,9 @@
 package org.perficient.registrationsystem.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.perficient.registrationsystem.dto.GroupDto;
 import org.perficient.registrationsystem.mappers.ProfessorMapper;
 import org.perficient.registrationsystem.mappers.SubjectMapper;
@@ -18,6 +21,10 @@ import java.util.Set;
  */
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+
 @Entity
 @Table(name = "groups",
         uniqueConstraints = {@UniqueConstraint(name = "UniqueAcronymAndNumber", columnNames = {"subject_acronym", "number"})})
@@ -41,6 +48,11 @@ public class Group extends BaseEntity {
     private Time startTime;
     private Time endTime;
 
+    @ManyToMany
+    @JoinTable(name = "student_group", joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private Set<Student> students = new HashSet<>();
+
     public void update(GroupDto groupDto) {
         this.setId(groupDto.getId());
         this.setNumber(groupDto.getNumber());
@@ -50,9 +62,4 @@ public class Group extends BaseEntity {
         this.setEndTime(groupDto.getEndTime());
 
     }
-    @ManyToMany
-    @JoinTable(name = "student_group", joinColumns = @JoinColumn(name = "group_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id"))
-    private Set<Student> students = new HashSet<>();
-
 }

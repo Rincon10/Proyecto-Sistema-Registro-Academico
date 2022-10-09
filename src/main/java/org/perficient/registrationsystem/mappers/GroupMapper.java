@@ -13,6 +13,7 @@ import org.perficient.registrationsystem.model.Group;
  */
 @Mapper
 public interface GroupMapper {
+    GroupMapper INSTANCE = Mappers.getMapper(GroupMapper.class);
 
     GroupDto groupToGroupDto(Group group);
 

@@ -29,17 +29,18 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Set<User> getUsers() {
-        Set<User> users = new HashSet<>();
+    public Set<UserDto> getUsers() {
+        Set<UserDto> users = new HashSet<>();
 
-        userRepository.findAll().iterator().forEachRemaining(users::add);
+        userRepository.findAll().iterator()
+                .forEachRemaining(user -> users.add(userMapper.userToUserDto(user)));
         return users;
     }
 
     @Override
-    public User addUser(UserDto userDto) {
-        User user = userMapper.userDtoToUser( userDto);
-
-        return userRepository.save(user);
+    public UserDto addUser(UserDto userDto) {
+        User user = userMapper.userDtoToUser(userDto);
+        userRepository.save(user);
+        return userDto;
     }
 }

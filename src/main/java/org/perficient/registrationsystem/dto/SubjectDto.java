@@ -2,9 +2,9 @@ package org.perficient.registrationsystem.dto;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-import org.perficient.registrationsystem.model.Subject;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +15,7 @@ import java.util.Set;
  */
 
 @Data
-public class SubjectDto {
+public class SubjectDto implements Serializable {
 
     @Length(max = 6)
     private String acronym;

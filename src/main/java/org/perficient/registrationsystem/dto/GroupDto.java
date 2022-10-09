@@ -1,10 +1,15 @@
 package org.perficient.registrationsystem.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import org.perficient.registrationsystem.model.Professor;
-import org.perficient.registrationsystem.model.Subject;
+import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.io.Serializable;
+import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,11 +20,28 @@ import java.util.Set;
  */
 
 @Data
-public class GroupDto {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class GroupDto implements Serializable {
+    private Integer id;
+
     @Positive
+    @NotNull
     private Integer number;
 
+    @NotNull
     private ProfessorDto professor;
+
+    @NotNull
     private SubjectDto subject;
     private Set<StudentDto> students = new HashSet<>();
+
+    @NotNull
+    private Time startTime;
+    
+    @NotNull
+    private Time endTime;
 }

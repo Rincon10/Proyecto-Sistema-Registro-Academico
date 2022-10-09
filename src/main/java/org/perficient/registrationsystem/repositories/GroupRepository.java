@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @Author Iván Camilo Rincon Saavedra
  */
 @Repository
-public interface GroupRepository extends CrudRepository<Group, Long> {
+public interface GroupRepository extends CrudRepository<Group, Integer> {
 }

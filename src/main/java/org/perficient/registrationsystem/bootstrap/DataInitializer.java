@@ -2,6 +2,7 @@ package org.perficient.registrationsystem.bootstrap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -15,6 +16,7 @@ import javax.sql.DataSource;
  * @Author Iván Camilo Rincon Saavedra
  */
 @Component
+@Profile({"dev","default"})
 public class DataInitializer {
 
     private final DataSource dataSource;

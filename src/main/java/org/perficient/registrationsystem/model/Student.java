@@ -1,9 +1,9 @@
 package org.perficient.registrationsystem.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -16,9 +16,9 @@ import javax.persistence.Table;
  */
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 
 @Entity
 @Table(name = "students")

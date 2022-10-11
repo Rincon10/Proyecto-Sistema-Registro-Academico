@@ -1,9 +1,9 @@
 package org.perficient.registrationsystem.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.perficient.registrationsystem.model.enums.Department;
 
 import javax.persistence.*;
@@ -15,9 +15,9 @@ import javax.persistence.*;
  */
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder
 
 @Entity
 @Table(name = "professors")

@@ -39,7 +39,7 @@ public class GroupServiceImpl implements GroupService {
                 .setPassword(null);
 
         group.getStudents()
-                .forEach(e->e.setPassword(null));
+                .forEach(e -> e.setPassword(null));
 
         return group;
 
@@ -79,15 +79,18 @@ public class GroupServiceImpl implements GroupService {
         }
     }
 
-    @Override
     @Transactional
+    @Override
     public GroupDto updateGroupById(Integer id, GroupDto groupDto) throws Exception {
-        //Checking if the user exists
-        Group group = findById(id);
-        //Updating
-        group.update(groupDto);
-        groupRepository.save(group);
-        return groupDto;
+        try {
+            //Checking if the user exists
+            Group group = findById(id);
+            //Updating
+            group.update(groupDto);
+            return groupMapper.groupToGroupDto(groupRepository.save(group));
+        } catch (Exception e) {
+            throw new ServerErrorException("We couldn't Updated the group", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        }
     }
 
     @Transactional

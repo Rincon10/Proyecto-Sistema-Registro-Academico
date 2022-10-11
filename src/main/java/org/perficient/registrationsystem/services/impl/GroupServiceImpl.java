@@ -47,6 +47,7 @@ public class GroupServiceImpl implements GroupService {
                 .iterator()
                 .forEachRemaining(group -> {
                     group.getProfessor().setPassword(null);
+                    group.getStudents().forEach( e-> e.setPassword(null));
                     set.add(groupMapper.groupToGroupDto(group));
                 });
         return set;

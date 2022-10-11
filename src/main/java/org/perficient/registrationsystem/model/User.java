@@ -1,6 +1,8 @@
 package org.perficient.registrationsystem.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
@@ -13,6 +15,9 @@ import java.util.Date;
  */
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)

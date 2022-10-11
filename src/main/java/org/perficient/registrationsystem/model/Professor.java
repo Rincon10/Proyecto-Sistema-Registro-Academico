@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.perficient.registrationsystem.model.enums.Department;
 
 import javax.persistence.*;
-import java.util.Set;
 
 /**
  * Class professor created on 9/19/2022
@@ -27,6 +26,6 @@ public class Professor extends User {
     @Enumerated(EnumType.STRING)
     private Department department;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "professor")
-    private Set<Group> teachingIn;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "professor")
+//    private Set<Group> teachingIn;
 }

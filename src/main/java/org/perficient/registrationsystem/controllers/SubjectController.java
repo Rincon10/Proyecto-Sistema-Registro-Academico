@@ -6,6 +6,7 @@ import org.perficient.registrationsystem.services.SubjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Set;
 
 /**
@@ -29,6 +30,38 @@ public class SubjectController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public Set<SubjectDto> getAllSubjects() throws Exception {
-        return service.getSubjects();
+        return service.getAllSubjects();
+    }
+
+    @GetMapping(path = "/{acronym}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public SubjectDto getSubjectByAcronym(@PathVariable String acronym) throws Exception {
+        return service.getSubjectByAcronym(acronym.toUpperCase());
+    }
+
+    //POST
+    @PostMapping
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    public SubjectDto addSubject(@Valid @RequestBody SubjectDto subjectDto) throws Exception {
+        return service.addSubject(subjectDto);
+    }
+
+    //PUT
+    @PutMapping(path = "/{acronym}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public SubjectDto updateSubjectByAcronym(@PathVariable String acronym, @Valid @RequestBody SubjectDto subjectDto) throws Exception {
+        return service.updateSubjectByAcronym(acronym.toUpperCase(), subjectDto);
+    }
+
+    //DELETE
+
+    @DeleteMapping(path = "/{acronym}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Boolean deleteByAcronym(@PathVariable String acronym) throws Exception {
+        return service.deleteSubjectByAcronym(acronym);
     }
 }

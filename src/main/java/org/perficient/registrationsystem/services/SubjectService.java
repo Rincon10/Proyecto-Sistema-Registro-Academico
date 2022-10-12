@@ -14,17 +14,18 @@ import java.util.Set;
 public interface SubjectService {
 
     //GET
-    Set<SubjectDto> getSubjects() throws Exception;
+    Set<SubjectDto> getAllSubjects() throws Exception;
+
+    SubjectDto getSubjectByAcronym( String acronym) throws Exception;
 
     //ADD
     SubjectDto addSubject(SubjectDto subjectDto) throws Exception;
 
     //UPDATE
 
-    SubjectDto updateSubjectDto(Integer id, SubjectDto subjectDto) throws Exception;
+    SubjectDto updateSubjectByAcronym(String acronym, SubjectDto subjectDto) throws Exception;
 
     //DELETE
-    Boolean deleteSubjectById(Integer id) throws Exception;
 
     Boolean deleteSubjectByAcronym(String acronym) throws Exception;
 }

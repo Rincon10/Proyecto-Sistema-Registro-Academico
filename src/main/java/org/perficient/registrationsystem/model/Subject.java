@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.perficient.registrationsystem.dto.SubjectDto;
+import org.perficient.registrationsystem.mappers.SubjectMapper;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -29,8 +31,14 @@ public class Subject extends BaseEntity {
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subject")
 //    private Set<Group> groups = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.DETACH)
     @JoinTable(name = "prerequisites", joinColumns = @JoinColumn(name = "subject1_id"),
             inverseJoinColumns = @JoinColumn(name = "subject2_id"))
     private Set<Subject> prerequisites = new HashSet<>();
+
+    public void update(SubjectDto subjectDto) {
+        this.setAcronym(subjectDto.getAcronym());
+        this.setName(subjectDto.getName());
+        this.setPrerequisites(SubjectMapper.INSTANCE.subjectDtoSetToSubjectSet(subjectDto.getPrerequisites()));
+    }
 }

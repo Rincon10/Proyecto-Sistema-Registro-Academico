@@ -1,6 +1,5 @@
 package org.perficient.registrationsystem.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,13 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
-import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.HashSet;
@@ -87,6 +80,7 @@ public class GroupControllerTest {
 
         return groupDto;
     }
+
     @Before
     public void setUp() throws Exception {
         // Initializing Mockito

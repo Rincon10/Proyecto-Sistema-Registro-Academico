@@ -10,9 +10,10 @@ import org.mockito.MockitoAnnotations;
 import org.perficient.registrationsystem.dto.GroupDto;
 import org.perficient.registrationsystem.dto.ProfessorDto;
 import org.perficient.registrationsystem.dto.SubjectDto;
-import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
 import org.perficient.registrationsystem.model.enums.Department;
 import org.perficient.registrationsystem.services.GroupService;
+import org.perficient.registrationsystem.services.exceptions.ControllerAdvisor;
+import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,8 +23,13 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
+import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.HashSet;
@@ -90,12 +96,13 @@ public class GroupControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(json, class_);
     }
-
     @Before
     public void setUp() throws Exception {
         // Initializing Mockito
         MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(groupController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(groupController)
+                .setControllerAdvice(new ControllerAdvisor())
+                .build();
 
         // Initializing JacksonTester
         ObjectMapper objectMapper = new ObjectMapper();

@@ -1,9 +1,13 @@
 package org.perficient.registrationsystem.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,10 +17,14 @@ import java.util.Date;
  */
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User extends BaseEntity {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,8 +41,7 @@ public class User extends BaseEntity {
     public void setPassword(String password) {
         if (password != null) {
             this.password = BCrypt.hashpw(password, BCrypt.gensalt());
-        }
-        else{
+        } else {
             this.password = null;
         }
     }

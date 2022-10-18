@@ -54,12 +54,10 @@ public class Group extends BaseEntity {
     private Set<Student> students = new HashSet<>();
 
     public void update(GroupDto groupDto) {
-        this.setId(groupDto.getId());
         this.setNumber(groupDto.getNumber());
         this.setProfessor(ProfessorMapper.INSTANCE.professorDtoToProfessor(groupDto.getProfessor()));
         this.setSubject(SubjectMapper.INSTANCE.subjectDtoToSubject(groupDto.getSubject()));
         this.setStartTime(groupDto.getStartTime());
         this.setEndTime(groupDto.getEndTime());
-
     }
 }

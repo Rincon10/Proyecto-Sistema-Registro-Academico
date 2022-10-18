@@ -6,6 +6,7 @@ import org.perficient.registrationsystem.model.Group;
 import org.perficient.registrationsystem.repositories.GroupRepository;
 import org.perficient.registrationsystem.services.GroupService;
 import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +35,12 @@ public class GroupServiceImpl implements GroupService {
         Group group = groupRepository.findById(id)
                 .orElseThrow(() -> new ServerErrorException(ServerErrorException.DOESNT_EXITS, HttpStatus.NOT_FOUND.value()));
 
-        group.getProfessor().setPassword(null);
+        group.getProfessor()
+                .setPassword(null);
+
+        group.getStudents()
+                .forEach(e -> e.setPassword(null));
+
         return group;
 
     }
@@ -47,6 +53,7 @@ public class GroupServiceImpl implements GroupService {
                 .iterator()
                 .forEachRemaining(group -> {
                     group.getProfessor().setPassword(null);
+                    group.getStudents().forEach(e -> e.setPassword(null));
                     set.add(groupMapper.groupToGroupDto(group));
                 });
         return set;
@@ -65,20 +72,25 @@ public class GroupServiceImpl implements GroupService {
         try {
             groupRepository.save(group);
             return true;
-        } catch (Exception e) {
+        } catch (DataIntegrityViolationException e) {
             throw new ServerErrorException(ServerErrorException.ALREADY_EXITS, HttpStatus.FORBIDDEN.value());
+        } catch (Exception e) {
+            throw new ServerErrorException(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
     }
 
-    @Override
     @Transactional
+    @Override
     public GroupDto updateGroupById(Integer id, GroupDto groupDto) throws Exception {
-        //Checking if the user exists
-        Group group = findById(id);
-        //Updating
-        group.update(groupDto);
-        groupRepository.save(group);
-        return groupDto;
+        try {
+            //Checking if the user exists
+            Group group = findById(id);
+            //Updating
+            group.update(groupDto);
+            return groupMapper.groupToGroupDto(groupRepository.save(group));
+        } catch (Exception e) {
+            throw new ServerErrorException("We couldn't Updated the group", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        }
     }
 
     @Transactional

@@ -12,16 +12,14 @@ import org.perficient.registrationsystem.dto.GroupDto;
 import org.perficient.registrationsystem.mappers.GroupMapper;
 import org.perficient.registrationsystem.model.Group;
 import org.perficient.registrationsystem.model.Professor;
+import org.perficient.registrationsystem.model.Student;
 import org.perficient.registrationsystem.model.enums.Department;
 import org.perficient.registrationsystem.repositories.GroupRepository;
 import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
 import org.perficient.registrationsystem.services.impl.GroupServiceImpl;
 
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -47,11 +45,22 @@ public class GroupServiceImplTest {
                 .department(Department.MATH_DEPARTMENT)
                 .build();
 
+        var student = Student
+                .builder()
+                .id(1L)
+                .semester(10)
+                .firstName("Camilo")
+                .build();
+
+        Set<Student> students = new LinkedHashSet<>();
+        students.add(student);
+
         group = Group.builder()
                 .id(1)
                 .startTime(Time.valueOf("13:00:00"))
                 .endTime(Time.valueOf("15:00:00"))
                 .professor(professor)
+                .students(students)
                 .build();
         groupDto = mapper.groupToGroupDto(group);
 

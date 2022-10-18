@@ -1,12 +1,13 @@
 package org.perficient.registrationsystem.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import java.util.Set;
 
 /**
  * Class Student created on 9/19/2022
@@ -15,12 +16,16 @@ import java.util.Set;
  */
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+
 @Entity
 @Table(name = "students")
 @PrimaryKeyJoinColumn(referencedColumnName = "id")
 public class Student extends User {
     private Integer semester;
 
-    @ManyToMany(mappedBy = "students")
-    private Set<Group> currentGroups;
+//    @ManyToMany(mappedBy = "students")
+//    private Set<Group> currentGroups;
 }

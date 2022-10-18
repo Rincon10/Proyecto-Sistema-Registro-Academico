@@ -1,11 +1,15 @@
 package org.perficient.registrationsystem.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * Class UserDto Created on 20/09/2022
@@ -13,7 +17,13 @@ import javax.validation.constraints.NotNull;
  * @Author Iván Camilo Rincon Saavedra
  */
 @Data
-public class UserDto {
+@AllArgsConstructor
+@NoArgsConstructor
+@SuperBuilder
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UserDto implements Serializable {
+    private Long id;
 
     private String firstName;
     private String lastName;
@@ -22,7 +32,7 @@ public class UserDto {
     @NotNull
     private String email;
 
-    @NotNull
+
     @Length(min = 6, max = 100)
     private String password;
 

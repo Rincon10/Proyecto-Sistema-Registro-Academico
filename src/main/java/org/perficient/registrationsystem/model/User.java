@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.perficient.registrationsystem.dto.UserDto;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
@@ -46,4 +47,10 @@ public class User implements Serializable {
         }
     }
 
+    public void update(UserDto userDto) {
+        this.firstName = userDto.getFirstName();
+        this.lastName = userDto.getLastName();
+        this.email = userDto.getEmail();
+        this.password = userDto.getPassword();
+    }
 }

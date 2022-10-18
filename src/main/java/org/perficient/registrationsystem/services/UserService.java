@@ -10,7 +10,10 @@ import org.perficient.registrationsystem.dto.UserDto;
 public interface UserService {
 
     //GET
-    UserDto getUserByEmail() throws Exception;
+
+    UserDto getUserById(int id) throws Exception;
+
+    UserDto getUserByEmail(String email) throws Exception;
 
     //POST
     UserDto addUser(UserDto userDto) throws Exception;

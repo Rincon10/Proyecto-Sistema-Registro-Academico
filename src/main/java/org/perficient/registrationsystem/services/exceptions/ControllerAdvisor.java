@@ -2,6 +2,7 @@ package org.perficient.registrationsystem.services.exceptions;
 
 import org.perficient.registrationsystem.controllers.GroupController;
 import org.perficient.registrationsystem.controllers.SubjectController;
+import org.perficient.registrationsystem.controllers.UserController;
 import org.perficient.registrationsystem.dto.server.ServerResponseDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ import java.util.stream.Collectors;
  *
  * @Author Iván Camilo Rincon Saavedra
  */
-@ControllerAdvice(basePackageClasses = {GroupController.class, SubjectController.class})
+@ControllerAdvice(basePackageClasses = {GroupController.class, SubjectController.class, UserController.class})
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

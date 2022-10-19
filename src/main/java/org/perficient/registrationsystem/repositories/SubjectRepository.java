@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  * @Author Iván Camilo Rincon Saavedra
  */
 @Repository
-public interface SubjectRepository extends CrudRepository<Subject, Long> {
+public interface SubjectRepository extends CrudRepository<Subject, String> {
 }

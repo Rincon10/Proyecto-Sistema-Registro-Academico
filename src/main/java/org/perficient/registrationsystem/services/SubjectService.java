@@ -1,6 +1,6 @@
 package org.perficient.registrationsystem.services;
 
-import org.perficient.registrationsystem.model.Subject;
+import org.perficient.registrationsystem.dto.SubjectDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -13,5 +13,19 @@ import java.util.Set;
 @Service
 public interface SubjectService {
 
-    Set<Subject> getSubjects();
+    //GET
+    Set<SubjectDto> getAllSubjects() throws Exception;
+
+    SubjectDto getSubjectByAcronym( String acronym) throws Exception;
+
+    //ADD
+    SubjectDto addSubject(SubjectDto subjectDto) throws Exception;
+
+    //UPDATE
+
+    SubjectDto updateSubjectByAcronym(String acronym, SubjectDto subjectDto) throws Exception;
+
+    //DELETE
+
+    Boolean deleteSubjectByAcronym(String acronym) throws Exception;
 }

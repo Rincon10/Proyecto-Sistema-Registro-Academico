@@ -1,6 +1,5 @@
 package org.perficient.registrationsystem.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +9,7 @@ import org.mockito.MockitoAnnotations;
 import org.perficient.registrationsystem.dto.GroupDto;
 import org.perficient.registrationsystem.dto.ProfessorDto;
 import org.perficient.registrationsystem.dto.SubjectDto;
+import org.perficient.registrationsystem.mappers.json.JsonMapper;
 import org.perficient.registrationsystem.model.enums.Department;
 import org.perficient.registrationsystem.services.GroupService;
 import org.perficient.registrationsystem.services.exceptions.ControllerAdvisor;
@@ -23,13 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.method.annotation.ExceptionHandlerMethodResolver;
-import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
-import org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.HashSet;
@@ -87,15 +81,6 @@ public class GroupControllerTest {
         return groupDto;
     }
 
-    protected String mapToJson(Object obj) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(obj);
-    }
-
-    private <T> T mapFromJson(String json, Class<T> class_) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(json, class_);
-    }
     @Before
     public void setUp() throws Exception {
         // Initializing Mockito
@@ -133,7 +118,7 @@ public class GroupControllerTest {
             // then
             assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
 
-            GroupDto[] savedSet = mapFromJson(response.getContentAsString(), GroupDto[].class);
+            GroupDto[] savedSet = JsonMapper.mapFromJson(response.getContentAsString(), GroupDto[].class);
             assertThat(savedSet.length).isEqualTo(groupDtoSet.size());
             assertEquals(savedSet[0], groupDto);
 
@@ -174,7 +159,7 @@ public class GroupControllerTest {
         groupDto.setId(number);
         groupDto.setNumber(number);
 
-        String jsonGroup = mapToJson(groupDto);
+        String jsonGroup = JsonMapper.mapToJson(groupDto);
 
         // when
         when(groupService.addGroup(groupDto)).thenReturn(true);
@@ -200,7 +185,7 @@ public class GroupControllerTest {
         Time oldTime = groupDto.getStartTime();
         groupDto.setStartTime(Time.valueOf("00:00:00"));
 
-        String jsonGroup = mapToJson(groupDto);
+        String jsonGroup = JsonMapper.mapToJson(groupDto);
 
         // when
         when(groupService.updateGroupById(id, groupDto)).thenReturn(groupDto);
@@ -214,7 +199,7 @@ public class GroupControllerTest {
         // then
         assertThat(response.getStatus()).isEqualTo(HttpStatus.ACCEPTED.value());
 
-        GroupDto updatedGroup = mapFromJson(response.getContentAsString(), GroupDto.class);
+        GroupDto updatedGroup = JsonMapper.mapFromJson(response.getContentAsString(), GroupDto.class);
 
         assertNotEquals(oldTime.toString(), updatedGroup.getStartTime().toString());
     }
@@ -229,7 +214,7 @@ public class GroupControllerTest {
         given(groupService.updateGroupById(id, groupDto))
                 .willThrow(new ServerErrorException(ServerErrorException.DOESNT_EXITS, HttpStatus.NOT_FOUND.value()));
 
-        String jsonGroup = mapToJson(groupDto);
+        String jsonGroup = JsonMapper.mapToJson(groupDto);
 
         MockHttpServletResponse response = mockMvc.perform(put(String.format("%s/%s", PATH, id))
                         .contentType(MediaType.APPLICATION_JSON_VALUE)

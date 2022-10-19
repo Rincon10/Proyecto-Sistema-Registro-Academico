@@ -25,8 +25,10 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SubjectDto implements Serializable {
 
-    @Length(max = 6)
+    @Length(min = 3, max = 6)
+    @NotNull
     private String acronym;
+
     @NotNull
     private String name;
     private Set<SubjectDto> prerequisites = new HashSet<>();

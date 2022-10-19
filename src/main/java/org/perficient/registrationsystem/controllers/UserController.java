@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 /**
  * Class UserController Created on 18/10/2022
@@ -25,7 +26,14 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public Set<UserDto> getAllUsers() throws Exception {
+        return service.getAllUsers();
+    }
+
+    @GetMapping("/id/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public UserDto getUserById(@PathVariable int id) throws Exception {

@@ -20,9 +20,10 @@ INSERT INTO SUBJECTS (acronym, name) VALUES ('SIML', 'Seminario de insercion lab
 INSERT INTO SUBJECTS (acronym, name) VALUES ('IETI', 'Innovacion y emprendimiento');
 
 --Users
+--pass: 123456
 
-INSERT INTO USERS (email, first_name, last_name, password ) VALUES('ivan.rincon-s@mail.escuelaing.edu.co','Ivan Camilo','Rincon Saavedra','$2a$10$8v6UIThCb9JdpuoIxZybSOY4ezqaEVhn7Z0zujaQUpbZ9B3FQsatm');
-INSERT INTO USERS (email, first_name, last_name, password ) VALUES('leidy.rincon-s@mail.escuelaing.edu.co','Leidy Alejandra','Rincon Saavedra','$2a$10$8v6UIThCb9JdpuoIxZybSOY4ezqaEVhn7Z0zujaQUpbZ9B3FQsatm');
+INSERT INTO USERS (email, first_name, last_name, password ) VALUES('ivan.rincon-s@mail.escuelaing.edu.co','Ivan Camilo','Rincon Saavedra','$2a$10$IfGXv1Uk.jB64RYbr5q2FOY12DBpzuNGdgltm99PfAwrvvVYyazna');
+INSERT INTO USERS (email, first_name, last_name, password ) VALUES('leidy.rincon-s@mail.escuelaing.edu.co','Leidy Alejandra','Rincon Saavedra','$2a$10$IfGXv1Uk.jB64RYbr5q2FOY12DBpzuNGdgltm99PfAwrvvVYyazna');
 
 -- Students
 INSERT INTO STUDENTS (id, semester) VALUES(1,10);

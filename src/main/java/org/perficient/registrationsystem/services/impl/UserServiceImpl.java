@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Class UserServiceImpl Created on 18/10/2022
  *
@@ -30,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private UserDto updateUser(User user, UserDto userDto) throws ServerErrorException {
         try {
             user.update(userDto);
+            user.setPassword(userDto.getPassword());
             return userMapper
                     .userToUserDto(userRepository.save(user));
         } catch (Exception e) {
@@ -40,7 +44,6 @@ public class UserServiceImpl implements UserService {
     private User findUserByEmail(String email) throws ServerErrorException {
         var user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ServerErrorException("The User that you are looking for doesn't exists.", HttpStatus.NOT_FOUND.value()));
-        user.setPassword(null);
 
         return user;
     }
@@ -48,9 +51,21 @@ public class UserServiceImpl implements UserService {
     private User findUserById(int id) throws ServerErrorException {
         var user = userRepository.findById((long) id)
                 .orElseThrow(() -> new ServerErrorException("The User that you are looking for doesn't exists.", HttpStatus.NOT_FOUND.value()));
-        user.setPassword(null);
 
         return user;
+    }
+
+    @Override
+    public Set<UserDto> getAllUsers() throws Exception {
+        Set<UserDto> set = new HashSet<>();
+
+        userRepository.findAll()
+                .iterator()
+                .forEachRemaining(u -> {
+                    u.setPassword(null);
+                    set.add(userMapper.userToUserDto(u));
+                });
+        return set;
     }
 
     @Override
@@ -76,6 +91,8 @@ public class UserServiceImpl implements UserService {
         }
         try {
             var user = userMapper.userDtoToUser(userDto);
+            user.setPassword(userDto.getPassword());
+
             return userMapper.userToUserDto(userRepository.save(user));
         } catch (DataIntegrityViolationException e) {
             throw new ServerErrorException("User already exits!", HttpStatus.FORBIDDEN.value());

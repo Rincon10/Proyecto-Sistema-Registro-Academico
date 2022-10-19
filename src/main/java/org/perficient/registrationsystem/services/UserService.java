@@ -2,6 +2,8 @@ package org.perficient.registrationsystem.services;
 
 import org.perficient.registrationsystem.dto.UserDto;
 
+import java.util.Set;
+
 /**
  * Interface UserService Created on 22/09/2022
  *
@@ -10,6 +12,7 @@ import org.perficient.registrationsystem.dto.UserDto;
 public interface UserService {
 
     //GET
+    Set<UserDto> getAllUsers() throws Exception;
 
     UserDto getUserById(int id) throws Exception;
 

@@ -108,11 +108,9 @@ public class UserRepositoryTest {
     @Test(expected = EmptyResultDataAccessException.class)
     public void should_fail_deleting_a_invalid_id() {
         // Arrange
-        Long id = anyLong();
-
         // Act
         userRepository
-                .deleteById(id);
+                .deleteById(-1L);
 
         // Assert
         // We expect an exception

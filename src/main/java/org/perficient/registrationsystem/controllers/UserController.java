@@ -29,8 +29,9 @@ public class UserController {
     @GetMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Set<UserDto> getAllUsers() throws Exception {
-        return service.getAllUsers();
+    public Set<UserDto> getAllUsers( @RequestParam(defaultValue = "0") int pageNo,
+                                     @RequestParam(defaultValue = "5") int pageSize ) throws Exception {
+        return service.getAllUsers(pageNo, pageSize);
     }
 
     @GetMapping("/id/{id}")

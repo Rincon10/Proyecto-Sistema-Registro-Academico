@@ -88,7 +88,7 @@ public class UserControllerTest {
     public void getAllUsers() throws Exception {
         // Arrange
         userDtoTestSet.add(userDtoTest);
-        when(service.getAllUsers())
+        when(service.getAllUsers(0,5))
                 .thenReturn(userDtoTestSet);
 
         // Act

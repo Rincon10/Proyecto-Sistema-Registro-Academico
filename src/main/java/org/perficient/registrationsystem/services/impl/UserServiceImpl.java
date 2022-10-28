@@ -7,6 +7,8 @@ import org.perficient.registrationsystem.repositories.UserRepository;
 import org.perficient.registrationsystem.services.UserService;
 import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,10 +58,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<UserDto> getAllUsers() throws Exception {
+    public Set<UserDto> getAllUsers(int pageNo, int pageSize) throws Exception {
         Set<UserDto> set = new HashSet<>();
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
 
-        userRepository.findAll()
+        userRepository.findAll(pageable)
                 .iterator()
                 .forEachRemaining(u -> {
                     u.setPassword(null);

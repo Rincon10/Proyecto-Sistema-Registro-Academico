@@ -12,7 +12,7 @@ import java.util.Set;
 public interface UserService {
 
     //GET
-    Set<UserDto> getAllUsers() throws Exception;
+    Set<UserDto> getAllUsers(int pageNo, int pageSize) throws Exception;
 
     UserDto getUserById(int id) throws Exception;
 

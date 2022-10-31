@@ -29,11 +29,12 @@ public class UserController {
     @GetMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Set<UserDto> getAllUsers( @RequestParam(defaultValue = "0") int pageNo,
-                                     @RequestParam(defaultValue = "5") int pageSize ) throws Exception {
+    public Set<UserDto> getAllUsers(@RequestParam(defaultValue = "0") int pageNo,
+                                    @RequestParam(defaultValue = "5") int pageSize) throws Exception {
         return service.getAllUsers(pageNo, pageSize);
     }
 
+    //GET
     @GetMapping("/id/{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
@@ -41,15 +42,14 @@ public class UserController {
         return service.getUserById(id);
     }
 
-    //GET
-    @GetMapping("/{email}")
+    //POST
+    @PostMapping("/email")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public UserDto getUserByEmail(@PathVariable String email) throws Exception {
-        return service.getUserByEmail(email);
+    public UserDto getUserByEmail(@RequestBody UserDto userDto) throws Exception {
+        return service.getUserByEmail(userDto.getEmail());
     }
 
-    //POST
     @PostMapping
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
@@ -58,11 +58,11 @@ public class UserController {
     }
 
     //UPDATE
-    @PutMapping("/{email}")
+    @PutMapping("/{userId}")
     @ResponseBody
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public UserDto updateUserByEmail(@PathVariable String email, @Valid @RequestBody UserDto userDto) throws Exception {
-        return service.updateUserByEmail(email, userDto);
+    public UserDto updateUserByEmail(@PathVariable int userId, @Valid @RequestBody UserDto userDto) throws Exception {
+        return service.updateUserById(userId, userDto);
     }
 
     //DELETE

@@ -1,71 +1,75 @@
 package org.perficient.registrationsystem.controllers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.perficient.registrationsystem.dto.UserDto;
-import org.perficient.registrationsystem.dto.server.ServerResponseDto;
 import org.perficient.registrationsystem.services.UserService;
-import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.PersistenceException;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- * Class UserController Created on 22/09/2022
+ * Class UserController Created on 18/10/2022
  *
  * @Author Iván Camilo Rincon Saavedra
  */
+@Slf4j
 @RestController
 @RequestMapping(path = "/api/v1/users")
 public class UserController {
 
     private final UserService service;
 
-    public UserController(@Autowired UserService service) {
+
+    public UserController(UserService service) {
         this.service = service;
     }
 
     @GetMapping
     @ResponseBody
-    public Set<UserDto> getAllUsers() {
-        return service.getUsers();
+    @ResponseStatus(HttpStatus.OK)
+    public Set<UserDto> getAllUsers(@RequestParam(defaultValue = "0") int pageNo,
+                                    @RequestParam(defaultValue = "5") int pageSize) throws Exception {
+        return service.getAllUsers(pageNo, pageSize);
+    }
+
+    //GET
+    @GetMapping("/id/{id}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto getUserById(@PathVariable int id) throws Exception {
+        return service.getUserById(id);
+    }
+
+    //POST
+    @PostMapping("/email")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
+    public UserDto getUserByEmail(@RequestBody UserDto userDto) throws Exception {
+        return service.getUserByEmail(userDto.getEmail());
     }
 
     @PostMapping
-    public ResponseEntity<?> addUser(@Valid @RequestBody UserDto userDto, BindingResult result) {
-        if (result.hasErrors()) {
-            List<String> errors = new ArrayList<>();
-
-            result.getFieldErrors()
-                    .stream()
-                    .map(f -> "The field " + f.getField() + f.getDefaultMessage())
-                    .forEach(errors::add);
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(service.addUser(userDto), HttpStatus.OK);
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto addUser(@Valid @RequestBody UserDto userDto) throws Exception {
+        return service.addUser(userDto);
     }
 
-    @ExceptionHandler(ServerErrorException.class)
-    public ResponseEntity<?> handleNotFound(ServerErrorException e) {
-        String message = e.getMessage();
-        int httpStatus = e.getHttpStatus();
-
-        Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, message);
-        return new ResponseEntity<>(new ServerResponseDto(message, httpStatus), HttpStatus.valueOf(httpStatus));
+    //UPDATE
+    @PutMapping("/{userId}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public UserDto updateUserByEmail(@PathVariable int userId, @Valid @RequestBody UserDto userDto) throws Exception {
+        return service.updateUserById(userId, userDto);
     }
 
-    @ExceptionHandler(PersistenceException.class)
-    public ResponseEntity<?> handlePersistenceException() {
-        Logger.getLogger(SubjectController.class.getName()).log(Level.SEVERE, null, "Something happens while saving the object");
-        return new ResponseEntity<>("Something happens while saving the object", HttpStatus.INTERNAL_SERVER_ERROR);
+    //DELETE
+    @DeleteMapping("/{email}")
+    @ResponseBody
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Boolean deleteUserByEmail(@PathVariable String email) throws Exception {
+        return service.deleteByEmail(email);
     }
-
 }

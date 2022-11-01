@@ -190,7 +190,11 @@ public class GroupServiceImplTest {
     @Test(expected = Exception.class)
     public void should_throw_an_exception_deleting_a_group_given_a_invalid_id() throws Exception {
         // Act
-        groupService.deleteGroupById(anyInt());
+        when(groupRepository.findById(anyInt()))
+                .thenReturn(Optional.empty());
+
+
+        groupService.deleteGroupById(group.getId());
 
         // Assert
         verify(groupRepository, times(1))

@@ -12,8 +12,11 @@ import org.perficient.registrationsystem.model.User;
 import org.perficient.registrationsystem.repositories.UserRepository;
 import org.perficient.registrationsystem.services.exceptions.ServerErrorException;
 import org.perficient.registrationsystem.services.impl.UserServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -51,22 +54,22 @@ public class UserServiceImplTest {
         // Arrange
         int expectedSize = 1;
 
-        List<User> userList = List.of(userTest);
+        Page<User> userList = new PageImpl<>(List.of(userTest));
 
-        when(userRepository.findAll())
+        when(userRepository.findAll(any(Pageable.class)))
                 .thenReturn(userList);
 
         // Act
-        Set<UserDto> set = service.getAllUsers();
+        Set<UserDto> set = service.getAllUsers(0,5);
 
         // Assert
         assertThat(set).hasSize(expectedSize);
         assertThat(set.toArray()[0])
                 .usingRecursiveComparison()
-                .isEqualTo(userList.get(0));
+                .isEqualTo(userList.getContent().get(0));
 
         verify(userRepository, times(expectedSize))
-                .findAll();
+                .findAll(any(Pageable.class));
         verifyNoMoreInteractions(userRepository);
     }
 

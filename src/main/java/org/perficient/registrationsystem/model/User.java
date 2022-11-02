@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.perficient.registrationsystem.dto.UserDto;
-import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -41,7 +41,7 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         if (password != null) {
-            this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+            this.password = new BCryptPasswordEncoder().encode(password);
         } else {
             this.password = null;
         }
@@ -53,4 +53,5 @@ public class User implements Serializable {
         this.email = userDto.getEmail();
         this.password = userDto.getPassword();
     }
+
 }
